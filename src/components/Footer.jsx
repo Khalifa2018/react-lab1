@@ -1,13 +1,16 @@
 import { Component } from "react";
 
 class Footer extends Component {
-  state = {};
+  constructor() {
+    super();
+    this.state = { name: "Movie" };
+  }
   render() {
     return (
       <>
         <br />
         <hr />
-        <h3>Movie Footer</h3>
+        <h3>{this.state.name} Footer</h3>
       </>
     );
   }
