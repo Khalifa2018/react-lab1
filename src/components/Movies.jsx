@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 
 const moviesDataSet = [
   {
+    id: uuidv4(),
     title: "Inception",
     director: "Christopher Nolan",
     releaseYear: 2010,
@@ -11,6 +12,7 @@ const moviesDataSet = [
     rating: 8.8,
   },
   {
+    id: uuidv4(),
     title: "The Matrix",
     director: "The Wachowskis",
     releaseYear: 1999,
@@ -18,6 +20,7 @@ const moviesDataSet = [
     rating: 8.7,
   },
   {
+    id: uuidv4(),
     title: "The Godfather",
     director: "Francis Ford Coppola",
     releaseYear: 1972,
@@ -25,6 +28,7 @@ const moviesDataSet = [
     rating: 9.2,
   },
   {
+    id: uuidv4(),
     title: "Pulp Fiction",
     director: "Quentin Tarantino",
     releaseYear: 1994,
@@ -32,6 +36,7 @@ const moviesDataSet = [
     rating: 8.9,
   },
   {
+    id: uuidv4(),
     title: "Spirited Away",
     director: "Hayao Miyazaki",
     releaseYear: 2001,
@@ -46,7 +51,7 @@ const Movies = () => {
   return (
     <div>
       {movies.map((movie) => (
-        <Movie key={uuidv4()} {...movie} />
+        <Movie key={movie.id} {...movie} />
       ))}
     </div>
   );
