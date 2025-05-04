@@ -1,6 +1,6 @@
-import { useState } from "react";
-import Movie from "./Movie";
+import { Component } from "react";
 import { v4 as uuidv4 } from "uuid";
+import Movie from "./Movie";
 
 const moviesDataSet = [
   {
@@ -45,15 +45,17 @@ const moviesDataSet = [
   },
 ];
 
-const Movies = () => {
-  const [movies] = useState(moviesDataSet);
+class Movies extends Component {
+  state = { movies: moviesDataSet };
+  render() {
+    return (
+      <div>
+        {this.state.movies.map((movie) => (
+          <Movie key={movie.id} {...movie} />
+        ))}
+      </div>
+    );
+  }
+}
 
-  return (
-    <div>
-      {movies.map((movie) => (
-        <Movie key={movie.id} {...movie} />
-      ))}
-    </div>
-  );
-};
 export default Movies;
