@@ -46,7 +46,41 @@ const moviesDataSet = [
 ];
 
 class Movies extends Component {
-  state = { movies: moviesDataSet };
+  constructor() {
+    super();
+    console.log("Movies component constructor");
+    this.state = { movies: [] };
+  }
+  static getDerivedStateFromProps(nextProps, nextState) {
+    console.log(
+      `Movies component derived state from props with next props: ${nextProps} and next state: ${nextState}`
+    );
+    return null;
+  }
+  componentDidMount() {
+    this.setState({ movies: moviesDataSet });
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    console.log(
+      `Movies component should update with next props: ${nextProps} and next state: ${nextState}`
+    );
+    return true;
+  }
+  getSnapshotBeforeUpdate(prevProps, prevState) {
+    console.log(
+      `Movies component snapshot before update with prev props: ${prevProps} and prev state: ${prevState}`
+    );
+    return null;
+  }
+  componentDidUpdate() {
+    console.log("Movies component updated");
+  }
+
+  componentWillUnmount() {
+    console.log("Movies component unmounted");
+  }
+
   render() {
     return (
       <div>
