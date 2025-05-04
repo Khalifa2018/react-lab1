@@ -1,29 +1,68 @@
-import { Component } from "react";
+import React, { Component } from "react";
 
 class Movie extends Component {
-  state = {};
   render() {
-    const { title, director, releaseYear, genre, rating } = this.props;
+    const {
+      title,
+      overview,
+      release_date,
+      adult,
+      backdrop_path,
+      genre_ids,
+      original_language,
+      popularity,
+      poster_path,
+      video,
+      vote_average,
+      vote_count,
+    } = this.props;
+
+    const imgBase = "https://image.tmdb.org/t/p/w500";
+    const posterUrl = poster_path ? `${imgBase}${poster_path}` : null;
+    const backdropUrl = backdrop_path ? `${imgBase}${backdrop_path}` : null;
 
     return (
-      <>
-        <h1 id="title">{title}</h1>
-        <div>
+      <div
+        className="movie-card"
+        style={
+          backdropUrl ? { backgroundImage: `url(${backdropUrl})` } : undefined
+        }
+      >
+        {posterUrl && (
+          <img
+            className="movie-poster"
+            src={posterUrl}
+            alt={`${title} poster`}
+          />
+        )}
+        <div className="movie-info">
+          <h1 className="movie-title">{title}</h1>
           <p>
-            <strong>Director:</strong> <span id="director">{director}</span>
+            <strong>Release Date:</strong> {release_date}
           </p>
           <p>
-            <strong>Release Year:</strong>
-            <span id="releaseYear">{releaseYear}</span>
+            <strong>Adult:</strong> {adult ? "Yes" : "No"}
           </p>
           <p>
-            <strong>Genre:</strong> <span id="genre">{genre}</span>
+            <strong>Language:</strong> {original_language.toUpperCase()}
           </p>
           <p>
-            <strong>IMDb Rating:</strong> <span id="rating">{rating}</span>
+            <strong>Genres:</strong> {genre_ids.join(", ")}
+          </p>
+          <p>
+            <strong>Popularity:</strong> {popularity}
+          </p>
+          <p>
+            <strong>Overview:</strong> {overview}
+          </p>
+          <p>
+            <strong>Video:</strong> {video ? "Yes" : "No"}
+          </p>
+          <p>
+            <strong>Rating:</strong> {vote_average} ({vote_count} votes)
           </p>
         </div>
-      </>
+      </div>
     );
   }
 }

@@ -66,3 +66,35 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+.movie-card {
+  display: flex;
+  background-size: cover;
+  background-position: center;
+  padding: 20px;
+  border-radius: 10px;
+  color: #fff;
+}
+
+.movie-poster {
+  width: 150px;
+  border-radius: 5px;
+  margin-right: 20px;
+}
+
+.movie-info {
+  background: rgba(0, 0, 0, 0.6);
+  padding: 10px;
+  border-radius: 5px;
+  max-width: 600px;
+}
+
+.movie-title {
+  margin: 0;
+  font-size: 1.8rem;
+}
+
+.movie-original {
+  margin: 0;
+  font-size: 1.2rem;
+  font-style: italic;
+}
