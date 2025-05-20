@@ -1,4 +1,5 @@
-import React, { Component } from "react";
+import { Component } from "react";
+import { Link } from "react-router-dom";
 
 class Movie extends Component {
   render() {
@@ -62,6 +63,8 @@ class Movie extends Component {
             <strong>Rating:</strong> {vote_average} ({vote_count} votes)
           </p>
         </div>
+
+        <Link to="movie/950387">Details</Link>
       </div>
     );
   }
