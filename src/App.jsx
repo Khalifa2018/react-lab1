@@ -1,18 +1,25 @@
-import { Route, Routes } from "react-router-dom";
+import { Link, Route, Routes } from "react-router-dom";
 import "./App.css";
-import Footer from "./components/Footer";
 import MoviesPage from "./pages/MoviesPage";
 import MovieDetailPage from "./pages/MovieDetailsPage";
+import HomePage from "./pages/HomePage";
+import AboutPage from "./pages/AboutPage";
 
 function App() {
   return (
     <>
-      <h1>Movies App</h1>
+      <nav>
+        <Link to="/">Home</Link>
+        <Link to="/movies">Movies</Link>
+        <Link to="/about">About</Link>
+      </nav>
+
       <Routes>
-        <Route path="/" element={<MoviesPage />} />
+        <Route path="/" element={<HomePage />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/movies" element={<MoviesPage />} />
         <Route path="/movie/:id" element={<MovieDetailPage />} />
       </Routes>
-      <Footer />
     </>
   );
 }
