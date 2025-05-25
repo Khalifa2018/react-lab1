@@ -2,7 +2,8 @@ import { StrictMode, lazy, Suspense } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import { moviesLoader } from './components/Movies.jsx'
+import { MovieProvider } from './context/MovieContext'
+import { movieDetailsLoader } from './pages/MovieDetails.jsx'
 
 const App = lazy(() => import('./App.jsx'))
 const Home = lazy(() => import('./pages/Home.jsx'))
@@ -24,8 +25,7 @@ const router = createBrowserRouter([
           <Suspense fallback={<div>Loading...</div>}>
             <Home />
           </Suspense>
-        ),
-        loader: moviesLoader,
+        )
       },
       {
         path: "about",
@@ -42,6 +42,7 @@ const router = createBrowserRouter([
             <MovieDetails />
           </Suspense>
         ),
+        loader: movieDetailsLoader,
       },
     ],
   },
@@ -49,6 +50,8 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <MovieProvider>
+      <RouterProvider router={router} />
+    </MovieProvider>
   </StrictMode>,
 )

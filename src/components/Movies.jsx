@@ -1,22 +1,22 @@
 import Movie from "./Movie";
+import { useMovies } from "../hook/useMovies";
+import { useEffect } from "react";
 
-
-
-import { useLoaderData } from "react-router-dom";
-
-export async function moviesLoader() {
-  const url = "https://api.themoviedb.org/3";
-  const path = "/discover/movie?sort_by=popularity.desc";
-  const apiKey = "&api_key=9813ce01a72ca1bd2ae25f091898b1c7";
-  const apiUrl = url + path + apiKey;
-
-  const response = await fetch(apiUrl);
-  const data = await response.json();
-  return data.results;
-}
 
 function Movies() {
-  const movies = useLoaderData();
+  const { movies, loading, error, fetchMovies } = useMovies();
+
+  useEffect(() => {
+    fetchMovies();
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   return (
     <div>
