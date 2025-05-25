@@ -1,19 +1,15 @@
-import { Component } from "react";
+import { useState } from "react";
 
-class Footer extends Component {
-  constructor() {
-    super();
-    this.state = { name: "Movie" };
-  }
-  render() {
-    return (
-      <>
-        <br />
-        <hr />
-        <h3>{this.state.name} Footer</h3>
-      </>
-    );
-  }
+function Footer() {
+  const [name] = useState("Movie");
+
+  return (
+    <>
+      <br />
+      <hr />
+      <h3>{name} Footer</h3>
+    </>
+  );
 }
 
 export default Footer;
