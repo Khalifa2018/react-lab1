@@ -1,6 +1,8 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function Movie({
+  id,
   title,
   overview,
   release_date,
@@ -58,7 +60,7 @@ function Movie({
         <p>
           <strong>Rating:</strong> {vote_average} ({vote_count} votes)
         </p>
-        <Link 
+        <Link
           to={`/movie/${id}`}
           style={{
             display: "inline-block",

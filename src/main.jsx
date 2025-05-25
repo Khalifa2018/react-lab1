@@ -1,31 +1,47 @@
-import { StrictMode } from 'react'
+import { StrictMode, lazy, Suspense } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
-import App from './App.jsx'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import Home from './pages/Home.jsx'
-import About from './pages/About.jsx'
 import { moviesLoader } from './components/Movies.jsx'
-import MovieDetails from './pages/MovieDetails.jsx'
 
+const App = lazy(() => import('./App.jsx'))
+const Home = lazy(() => import('./pages/Home.jsx'))
+const About = lazy(() => import('./pages/About.jsx'))
+const MovieDetails = lazy(() => import('./pages/MovieDetails.jsx'))
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: (
+      <Suspense fallback={<div>Loading...</div>}>
+        <App />
+      </Suspense>
+    ),
     children: [
       {
         path: "home",
-        element: <Home />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <Home />
+          </Suspense>
+        ),
         loader: moviesLoader,
       },
       {
         path: "about",
-        element: <About />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <About />
+          </Suspense>
+        ),
       },
       {
         path: "movie/:id",
-        element: <MovieDetails />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <MovieDetails />
+          </Suspense>
+        ),
       },
     ],
   },
