@@ -58,9 +58,25 @@ function Movie({
         <p>
           <strong>Rating:</strong> {vote_average} ({vote_count} votes)
         </p>
+        <Link 
+          to={`/movie/${id}`}
+          style={{
+            display: "inline-block",
+            padding: "10px 20px",
+            backgroundColor: "#646cff",
+            color: "white",
+            textDecoration: "none",
+            borderRadius: "5px",
+            marginTop: "15px"
+          }}
+        >
+          View Details
+        </Link>
       </div>
     </div>
   );
 }
 
 export default Movie;
+
+
