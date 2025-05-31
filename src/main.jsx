@@ -1,102 +1,74 @@
-import { StrictMode, lazy, Suspense } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom'
-import { Provider } from 'react-redux'
-import { store } from './store/store'
-import { movieDetailsLoader } from './pages/MovieDetails.jsx'
-import { homeLoader } from './pages/Home.jsx'
-
-const App = lazy(() => import('./App.jsx'))
-const Home = lazy(() => import('./pages/Home.jsx'))
-const About = lazy(() => import('./pages/About.jsx'))
-const MovieDetails = lazy(() => import('./pages/MovieDetails.jsx'))
-const Favorites = lazy(() => import('./pages/Favorites.jsx'))
-
-const LoadingFallback = () => (
-  <div className="min-h-screen flex items-center justify-center">
-    <div className="text-2xl text-blue-400">Loading...</div>
-  </div>
-);
-
-const HydrateFallback = () => (
-  <div className="min-h-screen flex items-center justify-center">
-    <div className="text-2xl text-blue-400">Hydrating...</div>
-  </div>
-);
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { store } from './store/store';
+import App from './App';
+import Home from './pages/Home';
+import About from './pages/About';
+import Favorites from './pages/Favorites';
+import MovieDetails from './pages/MovieDetails';
+import ErrorBoundary from './components/ErrorBoundary';
+import HydrateFallback from './components/HydrateFallback';
+import { ROUTES } from './config/constants';
+import './index.css';
 
 const router = createBrowserRouter([
-  {
-    path: "/",
-    element: (
-      <Suspense fallback={<LoadingFallback />}>
-        <App />
-      </Suspense>
-    ),
-    errorElement: <div className="min-h-screen flex items-center justify-center">
-      <div className="text-2xl text-red-500">Something went wrong. Please try again later.</div>
-    </div>,
-    children: [
-      {
-        index: true,
-        element: <Navigate to="/home" replace />
-      },
-      {
-        path: "home",
-        element: (
-          <Suspense fallback={<LoadingFallback />}>
-            <Home />
-          </Suspense>
-        ),
-        loader: homeLoader,
-        errorElement: <Home.ErrorBoundary />,
-        shouldRevalidate: () => true,
-        HydrateFallback: <HydrateFallback />
-      },
-      {
-        path: "about",
-        element: (
-          <Suspense fallback={<LoadingFallback />}>
-            <About />
-          </Suspense>
-        ),
-      },
-      {
-        path: "favorites",
-        element: (
-          <Suspense fallback={<LoadingFallback />}>
-            <Favorites />
-          </Suspense>
-        ),
-        errorElement: <Favorites.ErrorBoundary />
-      },
-      {
-        path: "movie/:id",
-        element: (
-          <Suspense fallback={<LoadingFallback />}>
-            <MovieDetails />
-          </Suspense>
-        ),
-        loader: movieDetailsLoader,
-        errorElement: <MovieDetails.ErrorBoundary />,
-        shouldRevalidate: () => true,
-        HydrateFallback: <HydrateFallback />
-      },
-    ],
-  },
-])
+    {
+        path: ROUTES.ROOT,
+        element: <App />,
+        errorElement: <ErrorBoundary />,
+        children: [
+            {
+                path: ROUTES.HOME,
+                element: <Home />,
+                errorElement: <Home.ErrorBoundary />,
+                loader: Home.homeLoader,
+                shouldRevalidate: ({ currentUrl, nextUrl }) => {
+                    // Revalidate if the user navigates to a different page and back
+                    return currentUrl.pathname !== nextUrl.pathname;
+                }
+            },
+            {
+                path: ROUTES.ABOUT,
+                element: <About />,
+                errorElement: <ErrorBoundary />
+            },
+            {
+                path: ROUTES.FAVORITES,
+                element: <Favorites />,
+                errorElement: <Favorites.ErrorBoundary />,
+                // Hydrate favorites from localStorage
+                loader: () => {
+                    const favorites = localStorage.getItem('favorites');
+                    return favorites ? JSON.parse(favorites) : [];
+                },
+                shouldRevalidate: ({ currentUrl, nextUrl }) => {
+                    // Revalidate if the user adds or removes a favorite
+                    return currentUrl.pathname !== nextUrl.pathname;
+                }
+            },
+            {
+                path: ROUTES.MOVIE_DETAILS,
+                element: <MovieDetails />,
+                errorElement: <MovieDetails.ErrorBoundary />,
+                loader: MovieDetails.movieDetailsLoader,
+                shouldRevalidate: ({ currentUrl, nextUrl }) => {
+                    // Revalidate if the user navigates to a different movie
+                    return currentUrl.pathname !== nextUrl.pathname;
+                }
+            }
+        ]
+    }
+]);
 
-createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <Provider store={store}>
-      <RouterProvider 
-        router={router} 
-        fallbackElement={<LoadingFallback />}
-        future={{
-          v7_startTransition: true,
-          v7_relativeSplatPath: true
-        }}
-      />
-    </Provider>
-  </StrictMode>,
-)
+ReactDOM.createRoot(document.getElementById('root')).render(
+    <React.StrictMode>
+        <Provider store={store}>
+            <RouterProvider
+                router={router}
+                fallbackElement={<HydrateFallback />}
+            />
+        </Provider>
+    </React.StrictMode>
+);
