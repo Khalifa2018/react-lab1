@@ -1,27 +1,33 @@
-import { Outlet, Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { Outlet } from 'react-router-dom'
+import Navbar from './components/Navbar'
 
 function App() {
-  const favorites = useSelector(state => state.favorites.movies);
-  const favoriteCount = favorites.length;
-
   return (
-    <>
-      <nav className="p-4 mb-8 flex gap-4 justify-center items-center">
-        <Link to="/home" className="text-blue-500 hover:text-blue-700">Home</Link>
-        <Link to="/favorites" className="text-blue-500 hover:text-blue-700 relative">
-          Favorites
-          {favoriteCount > 0 && (
-            <span className="absolute -top-2 -right-3 bg-red-500 text-white rounded-full px-2 py-0.5 text-xs min-w-[18px] text-center">
-              {favoriteCount}
-            </span>
-          )}
-        </Link>
-        <Link to="/about" className="text-blue-500 hover:text-blue-700">About</Link>
-      </nav>
-      <Outlet />
-    </>
-  );
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+      <Navbar />
+      <main className="container mx-auto px-4 py-8">
+        <Outlet />
+      </main>
+      <footer className="bg-white/80 backdrop-blur-sm border-t border-gray-100 py-6 mt-12">
+        <div className="container mx-auto px-4">
+          <div className="text-center text-gray-600">
+            <p>© 2024 Movie Explorer. All rights reserved.</p>
+            <p className="text-sm mt-2">
+              Powered by{' '}
+              <a 
+                href="https://www.themoviedb.org/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-blue-600 hover:text-blue-700 font-medium"
+              >
+                The Movie Database
+              </a>
+            </p>
+          </div>
+        </div>
+      </footer>
+    </div>
+  )
 }
 
-export default App;
+export default App
