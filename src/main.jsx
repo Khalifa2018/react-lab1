@@ -4,8 +4,6 @@ import './index.css'
 import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { store } from './store/store'
-import { movieDetailsLoader } from './pages/MovieDetails.jsx'
-import { homeLoader } from './pages/Home.jsx'
 
 const App = lazy(() => import('./App.jsx'))
 const Home = lazy(() => import('./pages/Home.jsx'))
@@ -48,10 +46,7 @@ const router = createBrowserRouter([
             <Home />
           </Suspense>
         ),
-        loader: homeLoader,
-        errorElement: <Home.ErrorBoundary />,
-        shouldRevalidate: () => true,
-        HydrateFallback: <HydrateFallback />
+        errorElement: <Home.ErrorBoundary />
       },
       {
         path: "about",
@@ -77,10 +72,7 @@ const router = createBrowserRouter([
             <MovieDetails />
           </Suspense>
         ),
-        loader: movieDetailsLoader,
-        errorElement: <MovieDetails.ErrorBoundary />,
-        shouldRevalidate: () => true,
-        HydrateFallback: <HydrateFallback />
+        errorElement: <MovieDetails.ErrorBoundary />
       },
     ],
   },
