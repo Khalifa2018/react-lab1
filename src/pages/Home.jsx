@@ -1,5 +1,5 @@
 import { useLoaderData } from 'react-router-dom'
-import Movie from '../components/Movie'
+import MovieGrid from '../components/MovieGrid'
 import ErrorBoundary from '../components/ErrorBoundary'
 import { API_CONFIG } from '../config/constants'
 
@@ -22,21 +22,7 @@ export async function homeLoader() {
 
 export default function Home() {
     const movies = useLoaderData();
-
-    return (
-        <div className="container-custom py-12">
-            <div className="card">
-                <h2 className="text-3xl font-bold text-blue-600 mb-8 text-center">
-                    Popular Movies
-                </h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {movies.map((movie) => (
-                        <Movie key={movie.id} {...movie} />
-                    ))}
-                </div>
-            </div>
-        </div>
-    );
+    return <MovieGrid movies={movies} title="Popular Movies" />;
 }
 
 Home.ErrorBoundary = ErrorBoundary;
