@@ -1,6 +1,23 @@
 import Movies from "../components/Movies";
+import { useLoaderData } from "react-router-dom";
+
+export async function homeLoader() {
+    const url = "https://api.themoviedb.org/3";
+    const path = "/discover/movie?sort_by=popularity.desc";
+    const apiKey = "&api_key=9813ce01a72ca1bd2ae25f091898b1c7";
+    const apiUrl = url + path + apiKey;
+
+    const response = await fetch(apiUrl);
+    if (!response.ok) {
+        throw new Error('Failed to fetch movies');
+    }
+    const data = await response.json();
+    return data.results;
+}
 
 function Home() {
+    const movies = useLoaderData();
+    
     return (
         <div className="home-container">
             <h2>Welcome to Movies App</h2>
@@ -20,7 +37,7 @@ function Home() {
                 </div>
                 <div className="get-started">
                     <p>Start exploring our collection of movies now!</p>
-                    <Movies />
+                    <Movies movies={movies} />
                 </div>
             </div>
         </div>

@@ -1,21 +1,8 @@
 import Movie from "./Movie";
-import { useMovies } from "../hook/useMovies";
-import { useEffect } from "react";
 
-
-function Movies() {
-  const { movies, loading, error, fetchMovies } = useMovies();
-
-  useEffect(() => {
-    fetchMovies();
-  }, []);
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error}</div>;
+function Movies({ movies }) {
+  if (!movies) {
+    return <div>No movies found</div>;
   }
 
   return (
@@ -26,4 +13,5 @@ function Movies() {
     </div>
   );
 }
+
 export default Movies;
