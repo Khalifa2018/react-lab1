@@ -50,69 +50,54 @@ function Movie({
 
   return (
     <div
-      className="movie-card"
-      style={
-        backdropUrl ? { backgroundImage: `url(${backdropUrl})` } : undefined
-      }
+      className="relative my-5 mx-auto max-w-4xl bg-gray-900 rounded-xl overflow-hidden shadow-lg bg-cover bg-center bg-blend-overlay"
+      style={backdropUrl ? { backgroundImage: `url(${backdropUrl})` } : undefined}
     >
       {posterUrl && (
         <img
-          className="movie-poster"
+          className="w-48 h-auto rounded-lg m-5 shadow-lg transition-transform duration-300 hover:scale-105"
           src={posterUrl}
           alt={`${title} poster`}
         />
       )}
-      <div className="movie-info">
-        <h1 className="movie-title">{title}</h1>
-        <p>
-          <strong>Release Date:</strong> {release_date}
+      <div className="p-5 text-gray-100">
+        <h1 className="text-3xl font-bold text-blue-400 mb-4">{title}</h1>
+        <p className="mb-2">
+          <span className="font-semibold text-blue-300">Release Date:</span> {release_date}
         </p>
-        <p>
-          <strong>Adult:</strong> {adult ? "Yes" : "No"}
+        <p className="mb-2">
+          <span className="font-semibold text-blue-300">Adult:</span> {adult ? "Yes" : "No"}
         </p>
-        <p>
-          <strong>Language:</strong> {original_language.toUpperCase()}
+        <p className="mb-2">
+          <span className="font-semibold text-blue-300">Language:</span> {original_language.toUpperCase()}
         </p>
-        <p>
-          <strong>Genres:</strong> {genre_ids.join(", ")}
+        <p className="mb-2">
+          <span className="font-semibold text-blue-300">Genres:</span> {genre_ids.join(", ")}
         </p>
-        <p>
-          <strong>Popularity:</strong> {popularity}
+        <p className="mb-2">
+          <span className="font-semibold text-blue-300">Popularity:</span> {popularity}
         </p>
-        <p>
-          <strong>Overview:</strong> {overview}
+        <p className="mb-2">
+          <span className="font-semibold text-blue-300">Overview:</span> {overview}
         </p>
-        <p>
-          <strong>Video:</strong> {video ? "Yes" : "No"}
+        <p className="mb-2">
+          <span className="font-semibold text-blue-300">Video:</span> {video ? "Yes" : "No"}
         </p>
-        <p>
-          <strong>Rating:</strong> {vote_average} ({vote_count} votes)
+        <p className="mb-4">
+          <span className="font-semibold text-blue-300">Rating:</span> {vote_average} ({vote_count} votes)
         </p>
-        <div className="movie-actions">
+        <div className="flex gap-4">
           <Link
             to={`/movie/${id}`}
-            style={{
-              display: "inline-block",
-              padding: "10px 20px",
-              backgroundColor: "#646cff",
-              color: "white",
-              textDecoration: "none",
-              borderRadius: "5px",
-              marginRight: "10px"
-            }}
+            className="inline-block px-5 py-2.5 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
           >
             View Details
           </Link>
           <button
             onClick={handleFavoriteClick}
-            style={{
-              padding: "10px 20px",
-              backgroundColor: isFavorite ? "#ff4444" : "#4CAF50",
-              color: "white",
-              border: "none",
-              borderRadius: "5px",
-              cursor: "pointer"
-            }}
+            className={`px-5 py-2.5 text-white rounded-lg transition-colors ${
+              isFavorite ? 'bg-red-500 hover:bg-red-600' : 'bg-green-500 hover:bg-green-600'
+            }`}
           >
             {isFavorite ? "Remove from Favorites" : "Add to Favorites"}
           </button>
