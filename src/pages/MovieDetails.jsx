@@ -1,4 +1,6 @@
 import { useLoaderData } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { addToFavorites, removeFromFavorites } from "../store/favoriteSlice";
 
 export async function movieDetailsLoader({ params }) {
     const url = "https://api.themoviedb.org/3";
@@ -15,6 +17,31 @@ export async function movieDetailsLoader({ params }) {
 
 function MovieDetails() {
     const movie = useLoaderData();
+    const dispatch = useDispatch();
+    const favorites = useSelector(state => state.favorites.movies);
+    const isFavorite = favorites.some(m => m.id === movie.id);
+
+    const handleFavoriteClick = () => {
+        if (isFavorite) {
+            dispatch(removeFromFavorites(movie.id));
+        } else {
+            dispatch(addToFavorites({
+                id: movie.id,
+                title: movie.title,
+                overview: movie.overview,
+                release_date: movie.release_date,
+                adult: movie.adult,
+                backdrop_path: movie.backdrop_path,
+                genre_ids: movie.genres.map(g => g.id),
+                original_language: movie.original_language,
+                popularity: movie.popularity,
+                poster_path: movie.poster_path,
+                video: movie.video,
+                vote_average: movie.vote_average,
+                vote_count: movie.vote_count,
+            }));
+        }
+    };
 
     const imgBase = "https://image.tmdb.org/t/p/w500";
     const posterUrl = movie.poster_path ? `${imgBase}${movie.poster_path}` : null;
@@ -93,6 +120,22 @@ function MovieDetails() {
                         <strong>Production Countries:</strong> {movie.production_countries.map(country => country.name).join(", ")}
                     </p>
                 )}
+                <div className="movie-actions">
+                    <button
+                        onClick={handleFavoriteClick}
+                        style={{
+                            padding: "10px 20px",
+                            backgroundColor: isFavorite ? "#ff4444" : "#4CAF50",
+                            color: "white",
+                            border: "none",
+                            borderRadius: "5px",
+                            cursor: "pointer",
+                            marginTop: "20px"
+                        }}
+                    >
+                        {isFavorite ? "Remove from Favorites" : "Add to Favorites"}
+                    </button>
+                </div>
             </div>
         </div>
     );
